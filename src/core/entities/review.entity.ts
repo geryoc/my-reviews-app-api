@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { CategoryEntity } from './category.entity';
+import { MediaEntity } from './media.entity';
 import { ReviewTagEntity } from './reviewtag.entity';
 import { UserEntity } from './user.entity';
 
@@ -50,8 +51,8 @@ export class ReviewEntity {
   @Column({ type: 'boolean', default: false })
   isFavorite: boolean;
 
-  @Column({ type: 'text', array: true, nullable: true })
-  imageUrls?: string[];
+  @Column({ nullable: true })
+  imageMediaId?: string;
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
   createdAt: Date;
@@ -74,4 +75,12 @@ export class ReviewEntity {
     eager: true,
   })
   reviewTags: ReviewTagEntity[];
+
+  @ManyToOne(() => MediaEntity, {
+    eager: true,
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'imageMediaId' })
+  imageMedia?: MediaEntity;
 }

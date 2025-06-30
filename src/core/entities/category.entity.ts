@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { MediaEntity } from './media.entity';
 
 @Entity('category')
 export class CategoryEntity {
@@ -17,6 +18,16 @@ export class CategoryEntity {
   @Column({ type: 'varchar', length: 10, nullable: true })
   emoji?: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  image?: string;
+  @Column({ nullable: true })
+  imageMediaId?: string;
+
+  // Relationships
+
+  @ManyToOne(() => MediaEntity, {
+    eager: true,
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'imageMediaId' })
+  imageMedia?: MediaEntity;
 }

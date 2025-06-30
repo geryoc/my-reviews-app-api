@@ -2,10 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { MediaEntity } from './media.entity';
 import { ReviewEntity } from './review.entity';
 import { TagEntity } from './tag.entity';
 
@@ -24,7 +27,7 @@ export class UserEntity {
   name?: string;
 
   @Column({ nullable: true })
-  pictureUrl?: string;
+  profilePictureMediaId?: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -39,4 +42,12 @@ export class UserEntity {
 
   @OneToMany(() => TagEntity, (tag) => tag.user)
   tags: TagEntity[];
+
+  @ManyToOne(() => MediaEntity, {
+    eager: true,
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'profilePictureMediaId' })
+  profilePictureMedia?: MediaEntity;
 }

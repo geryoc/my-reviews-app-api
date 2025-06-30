@@ -1,5 +1,6 @@
 import { CategoryEntity } from '../entities/category.entity';
 import { DemoEntity } from '../entities/demo.entity';
+import { MediaEntity } from '../entities/media.entity';
 import { ReviewEntity } from '../entities/review.entity';
 import { ReviewTagEntity } from '../entities/reviewtag.entity';
 import { TagEntity } from '../entities/tag.entity';
@@ -12,4 +13,5 @@ export const entityList = [
   TagEntity,
   ReviewTagEntity,
   CategoryEntity,
+  MediaEntity,
 ];

@@ -1,11 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { entityList } from './config/entities.config';
+import { DevDataSeeder, devSeeders } from './seed/dev/dev-data-seeder.service';
+import {
+  SystemDataSeeder,
+  systemSeeders,
+} from './seed/system/system-data-seeder.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature(entityList)],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, SystemDataSeeder, DevDataSeeder],
   controllers: [],
-  providers: [],
+  providers: [...systemSeeders, ...devSeeders],
 })
 export class CoreModule {}
