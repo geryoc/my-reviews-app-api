@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../../app.module';
-import { DevDataSeeder } from './dev/dev-data-seeder.service';
+import { AppModule } from '../../../app.module';
 import { SystemDataSeeder } from './system/system-data-seeder.service';
+import { DevDataSeeder } from './dev/dev-data-seeder.service';
 
 async function seederRunner() {
   const app = await NestFactory.createApplicationContext(AppModule);
@@ -24,4 +24,7 @@ async function seederRunner() {
   await app.close();
 }
 
-seederRunner();
+seederRunner().catch((error) => {
+  console.error('❌ Seeder failed:', error);
+  process.exit(1);
+});
