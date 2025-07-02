@@ -6,6 +6,11 @@ export interface IStorageService {
     prefix?: string,
     containerName?: string,
   ): Promise<StorageObject[]>;
+  getObjectUrl(
+    objectName: string,
+    containerName?: string,
+    expiresInSeconds?: number,
+  ): Promise<string>;
 }
 
 export interface StorageObject {

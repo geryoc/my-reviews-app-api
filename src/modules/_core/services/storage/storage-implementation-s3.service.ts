@@ -5,7 +5,9 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Readable } from 'stream';
 import {
   IStorageService,
@@ -17,14 +19,30 @@ import {
 export class S3MediaStorageService implements IStorageService {
   private s3Client: S3Client;
 
-  private defaultBucketName: string = process.env.AWS_S3_DEFAULT_BUCKET_NAME!;
+  private readonly defaultBucketName: string;
+  private readonly region: string;
+  private readonly accessKeyId: string;
+  private readonly secretAccessKey: string;
+  private readonly defaultUrlExpirationSeconds: number;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
+    this.defaultBucketName = this.configService.get<string>(
+      'AWS_S3_DEFAULT_BUCKET_NAME',
+    )!;
+    this.region = this.configService.get<string>('AWS_S3_REGION')!;
+    this.accessKeyId = this.configService.get<string>('AWS_S3_ACCESS_KEY_ID')!;
+    this.secretAccessKey = this.configService.get<string>(
+      'AWS_S3_SECRET_ACCESS_KEY',
+    )!;
+    this.defaultUrlExpirationSeconds = this.configService.get<number>(
+      'APP_MEDIA_DEFAULT_URL_EXPIRATION_SECONDS',
+    )!;
+
     this.s3Client = new S3Client({
-      region: process.env.AWS_S3_REGION!,
+      region: this.region,
       credentials: {
-        accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY!,
+        accessKeyId: this.accessKeyId,
+        secretAccessKey: this.secretAccessKey,
       },
     });
   }
@@ -44,7 +62,7 @@ export class S3MediaStorageService implements IStorageService {
       }),
     );
 
-    const url = `https://${bucketName}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/${params.objectName}`;
+    const url = `https://${bucketName}.s3.${this.region}.amazonaws.com/${params.objectName}`;
 
     return {
       objectName: params.objectName,
@@ -100,12 +118,31 @@ export class S3MediaStorageService implements IStorageService {
     );
 
     return (
-      result.Contents?.map((obj) => ({
-        objectName: obj.Key!,
+      result.Contents?.map((object) => ({
+        objectName: object.Key!,
         containerName: bucketName,
-        url: `https://${bucketName}.s3.amazonaws.com/${obj.Key}`,
-        size: obj.Size,
+        url: `https://${bucketName}.s3.amazonaws.com/${object.Key}`,
+        size: object.Size,
       })) ?? []
     );
+  }
+
+  async getObjectUrl(
+    objectName: string,
+    containerName?: string,
+    expiresInSeconds?: number,
+  ): Promise<string> {
+    const bucketName = containerName || this.defaultBucketName;
+
+    const command = new GetObjectCommand({
+      Bucket: bucketName,
+      Key: objectName,
+    });
+
+    const signedUrl = await getSignedUrl(this.s3Client, command, {
+      expiresIn: expiresInSeconds || this.defaultUrlExpirationSeconds,
+    });
+
+    return signedUrl;
   }
 }

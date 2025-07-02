@@ -101,4 +101,12 @@ export class MediaService {
       media.storageContainerName!,
     );
   }
+
+  async getMediaAccessUrl(request: GetMediaByIdRequest): Promise<string> {
+    const media = await this.getMediaById(request);
+    return this.storageService.getObjectUrl(
+      media.storageObjectName!,
+      media.storageContainerName!,
+    );
+  }
 }

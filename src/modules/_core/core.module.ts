@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config/dist/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   coreServicesExports,
@@ -12,7 +13,7 @@ import {
 } from './seed/system/system-data-seeder.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature(entityList)],
+  imports: [TypeOrmModule.forFeature(entityList), ConfigModule.forRoot()],
   exports: [
     TypeOrmModule,
     SystemDataSeeder,

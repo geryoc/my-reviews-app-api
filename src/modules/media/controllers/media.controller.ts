@@ -12,6 +12,7 @@ import { Media } from 'src/modules/_core/models/media.model';
 import { CreateMediaRequest } from '../models/requests/create-media.request';
 import { GetMediaByIdRequest } from '../models/requests/get-media-by-id.request';
 import { DownloadMediaResponse } from '../models/responses/download-media.response';
+import { GetMediaAccessUrlResponse } from '../models/responses/get-media-access-url.response';
 import { MediaService } from '../services/media.service';
 
 @Controller('api/media')
@@ -44,5 +45,13 @@ export class MediaController {
     const base64Data = buffer.toString('base64');
     const response: DownloadMediaResponse = { base64Data };
     return response;
+  }
+
+  @Get(':mediaId/access-url')
+  async getMediaAccessUrl(
+    @Param() request: GetMediaByIdRequest,
+  ): Promise<GetMediaAccessUrlResponse> {
+    const url = await this.mediaService.getMediaAccessUrl(request);
+    return { accessUrl: url };
   }
 }
