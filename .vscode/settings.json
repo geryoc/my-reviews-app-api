@@ -1,5 +1,8 @@
 {
   "files.eol": "\n",
   "editor.tabSize": 2,
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always"
+  }
 }

@@ -10,7 +10,7 @@ import { Readable } from 'stream';
 import {
   IStorageService,
   StorageObject,
-  UploadObjectParams,
+  StorageUploadObjectParams,
 } from './storage.service';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class S3MediaStorageService implements IStorageService {
 
   constructor() {
     this.s3Client = new S3Client({
-      region: process.env.AWS_REGION!,
+      region: process.env.AWS_S3_REGION!,
       credentials: {
         accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID!,
         secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY!,
@@ -29,12 +29,14 @@ export class S3MediaStorageService implements IStorageService {
     });
   }
 
-  async uploadObject(params: UploadObjectParams): Promise<StorageObject> {
+  async uploadObject(
+    params: StorageUploadObjectParams,
+  ): Promise<StorageObject> {
     const bucketName = params.containerName || this.defaultBucketName;
 
     await this.s3Client.send(
       new PutObjectCommand({
-        Key: params.key,
+        Key: params.objectName,
         Bucket: bucketName,
         Body: params.buffer,
         ContentType: params.contentType,
@@ -42,10 +44,12 @@ export class S3MediaStorageService implements IStorageService {
       }),
     );
 
+    const url = `https://${bucketName}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/${params.objectName}`;
+
     return {
-      key: params.key,
+      key: params.objectName,
       containerName: bucketName,
-      url: `https://${bucketName}.s3.amazonaws.com/${params.key}`,
+      url,
       contentType: params.contentType,
       size: params.buffer.length,
     };

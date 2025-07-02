@@ -11,16 +11,19 @@
 - [x] Add seeder for system data and scalable seeder structure
 - [x] Add seeder for dev data and script to run dev seeders
 - [x] Define and integrate media storage - Start with s3 deployed store (to try aws) and then use minio for local dev
+- [x] Add endpoint POST /media/upload, and GET media/:id and then GET media/download (Analyze)
+- [x] Add Open API documentation generation
 
-- [ ] Add endpoint POST /media/upload, and GET media/:id and then GET media/download (Analyze)
-- [ ] Analyze how to handle rollback of created medias ?? how twitter/facebook api handles this ??
+- [ ] Analyze how to handle rollback of created medias ?? how twitter/facebook api handles this ?? implement rollback mechanism
 
-- [ ] Analyze Auth providers auth0 vs aws vs firebase
+- [ ] Analyze Auth providers auth0 vs aws
 - [ ] Add auth module sign up / sign in - integrate auth provider
-
+- [ ] Add auth validation in controllers and prevent
 - [ ] Add review module with crud
 
-- [ ] Add Open API documentation generation
+- [ ] Add Exception handling middlewares
+- [ ] Add Validation middlewares
+- [ ] Add Not found middlewares
 
 # Frontend
 

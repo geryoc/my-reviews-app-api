@@ -1,5 +1,5 @@
 export interface IStorageService {
-  uploadObject(params: UploadObjectParams): Promise<StorageObject>;
+  uploadObject(params: StorageUploadObjectParams): Promise<StorageObject>;
   downloadObject(key: string, containerName?: string): Promise<Buffer>;
   deleteObject(key: string, containerName?: string): Promise<void>;
   listObjects(
@@ -16,8 +16,8 @@ export interface StorageObject {
   contentType?: string;
 }
 
-export interface UploadObjectParams {
-  key: string;
+export interface StorageUploadObjectParams {
+  objectName: string;
   buffer: Buffer;
   containerName?: string;
   contentType?: string;

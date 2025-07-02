@@ -17,9 +17,10 @@ export const mediaUseCaseToEntityType = (useCase: MediaUseCase): EntityType => {
 };
 
 export const getMediaStorageKey = (
-  useCase: MediaUseCase,
   mediaId: string,
+  extension: string,
+  useCase: MediaUseCase,
 ): string => {
   const entityType = mediaUseCaseToEntityType(useCase);
-  return `/${entityType}/${useCase}/${mediaId}`;
+  return `media/${entityType}/${useCase}/${mediaId}.${extension}`;
 };

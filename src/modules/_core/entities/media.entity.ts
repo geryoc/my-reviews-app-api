@@ -12,8 +12,11 @@ export class MediaEntity {
   @PrimaryGeneratedColumn('uuid')
   mediaId: string;
 
-  @Column({ nullable: true })
-  contentType?: string;
+  @Column()
+  fileName: string;
+
+  @Column()
+  contentType: string;
 
   @Column({
     type: 'enum',
@@ -21,14 +24,11 @@ export class MediaEntity {
   })
   mediaUseCase: MediaUseCase;
 
-  @Column({ nullable: true })
-  logicalName?: string;
+  @Column()
+  storageObjectName: string;
 
-  @Column({ nullable: true })
-  physicalName?: string;
-
-  @Column({ nullable: true })
-  containerName?: string;
+  @Column()
+  storageContainerName: string;
 
   @Column()
   url: string;
