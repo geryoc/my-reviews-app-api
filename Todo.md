@@ -13,12 +13,12 @@
 - [x] Define and integrate media storage - Start with s3 deployed store (to try aws) and then use minio for local dev
 - [x] Add endpoint POST /media/upload, and GET media/:id and then GET media/download (Analyze)
 - [x] Add Open API documentation generation
+- [x] Analyze how to handle rollback of created medias ?? how twitter/facebook api handles this ?? implement rollback mechanism
+- [x] Auth - Analyze Auth providers auth0 vs aws -> Decision AWS Cognito
 
-- [ ] Analyze how to handle rollback of created medias ?? how twitter/facebook api handles this ?? implement rollback mechanism
+- [ ] Auth - Add auth module sign up / sign in - integrate auth provider (AWS COGNITO)
 
-- [ ] Analyze Auth providers auth0 vs aws
-- [ ] Add auth module sign up / sign in - integrate auth provider
-- [ ] Add auth validation in controllers and prevent
+- [ ] Auth - Add auth validation in controllers and prevent
 - [ ] Add review module with crud
 
 - [ ] Add Exception handling middlewares

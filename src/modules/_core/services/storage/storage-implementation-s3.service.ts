@@ -47,7 +47,7 @@ export class S3MediaStorageService implements IStorageService {
     const url = `https://${bucketName}.s3.${process.env.AWS_S3_REGION}.amazonaws.com/${params.objectName}`;
 
     return {
-      key: params.objectName,
+      objectName: params.objectName,
       containerName: bucketName,
       url,
       contentType: params.contentType,
@@ -55,10 +55,13 @@ export class S3MediaStorageService implements IStorageService {
     };
   }
 
-  async downloadObject(key: string, containerName?: string): Promise<Buffer> {
+  async downloadObject(
+    objectName: string,
+    containerName?: string,
+  ): Promise<Buffer> {
     const res = await this.s3Client.send(
       new GetObjectCommand({
-        Key: key,
+        Key: objectName,
         Bucket: containerName || this.defaultBucketName,
       }),
     );
@@ -71,11 +74,14 @@ export class S3MediaStorageService implements IStorageService {
     return Buffer.concat(chunks);
   }
 
-  async deleteObject(key: string, containerName?: string): Promise<void> {
+  async deleteObject(
+    objectName: string,
+    containerName?: string,
+  ): Promise<void> {
     await this.s3Client.send(
       new DeleteObjectCommand({
         Bucket: containerName || this.defaultBucketName,
-        Key: key,
+        Key: objectName,
       }),
     );
   }
@@ -95,7 +101,8 @@ export class S3MediaStorageService implements IStorageService {
 
     return (
       result.Contents?.map((obj) => ({
-        key: obj.Key!,
+        objectName: obj.Key!,
+        containerName: bucketName,
         url: `https://${bucketName}.s3.amazonaws.com/${obj.Key}`,
         size: obj.Size,
       })) ?? []

@@ -1,7 +1,7 @@
 export interface IStorageService {
   uploadObject(params: StorageUploadObjectParams): Promise<StorageObject>;
-  downloadObject(key: string, containerName?: string): Promise<Buffer>;
-  deleteObject(key: string, containerName?: string): Promise<void>;
+  downloadObject(objectName: string, containerName?: string): Promise<Buffer>;
+  deleteObject(objectName: string, containerName?: string): Promise<void>;
   listObjects(
     prefix?: string,
     containerName?: string,
@@ -9,7 +9,7 @@ export interface IStorageService {
 }
 
 export interface StorageObject {
-  key: string;
+  objectName: string;
   containerName?: string;
   url: string;
   size?: number;
