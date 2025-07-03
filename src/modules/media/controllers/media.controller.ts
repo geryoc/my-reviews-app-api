@@ -6,8 +6,10 @@ import {
   HttpStatus,
   Param,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/modules/_core/auth/jwt.guard';
 import { Media } from 'src/modules/_core/models/media.model';
 import { CreateMediaRequest } from '../models/requests/create-media.request';
 import { GetMediaByIdRequest } from '../models/requests/get-media-by-id.request';
@@ -15,6 +17,7 @@ import { DownloadMediaResponse } from '../models/responses/download-media.respon
 import { GetMediaAccessUrlResponse } from '../models/responses/get-media-access-url.response';
 import { MediaService } from '../services/media.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('api/media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}

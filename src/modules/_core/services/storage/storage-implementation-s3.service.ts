@@ -22,7 +22,7 @@ export class S3MediaStorageService implements IStorageService {
   private readonly defaultBucketName: string;
   private readonly region: string;
   private readonly accessKeyId: string;
-  private readonly secretAccessKey: string;
+  private readonly accessKeySecret: string;
   private readonly defaultUrlExpirationSeconds: number;
 
   constructor(private readonly configService: ConfigService) {
@@ -31,8 +31,8 @@ export class S3MediaStorageService implements IStorageService {
     )!;
     this.region = this.configService.get<string>('AWS_S3_REGION')!;
     this.accessKeyId = this.configService.get<string>('AWS_S3_ACCESS_KEY_ID')!;
-    this.secretAccessKey = this.configService.get<string>(
-      'AWS_S3_SECRET_ACCESS_KEY',
+    this.accessKeySecret = this.configService.get<string>(
+      'AWS_S3_ACCESS_KEY_SECRET',
     )!;
     this.defaultUrlExpirationSeconds = this.configService.get<number>(
       'APP_MEDIA_DEFAULT_URL_EXPIRATION_SECONDS',
@@ -42,7 +42,7 @@ export class S3MediaStorageService implements IStorageService {
       region: this.region,
       credentials: {
         accessKeyId: this.accessKeyId,
-        secretAccessKey: this.secretAccessKey,
+        secretAccessKey: this.accessKeySecret,
       },
     });
   }

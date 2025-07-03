@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
+import { PassportModule } from '@nestjs/passport/dist/passport.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtStrategy } from './auth/jwt.strategy';
 import {
   coreServicesExports,
   coreServicesProviders,
@@ -13,14 +15,24 @@ import {
 } from './seed/system/system-data-seeder.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature(entityList), ConfigModule.forRoot()],
+  imports: [
+    TypeOrmModule.forFeature(entityList),
+    ConfigModule.forRoot(),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+  ],
   exports: [
+    ...coreServicesExports,
+    PassportModule,
     TypeOrmModule,
     SystemDataSeeder,
     DevDataSeeder,
-    ...coreServicesExports,
   ],
   controllers: [],
-  providers: [...systemSeeders, ...devSeeders, ...coreServicesProviders],
+  providers: [
+    ...systemSeeders,
+    ...devSeeders,
+    ...coreServicesProviders,
+    JwtStrategy,
+  ],
 })
 export class CoreModule {}

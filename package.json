@@ -21,6 +21,7 @@
     "seed:run": "ts-node src/modules/_core/seed/seeder.runner.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.840.0",
     "@aws-sdk/client-s3": "^3.839.0",
     "@aws-sdk/s3-request-presigner": "^3.842.0",
     "@nestjs/common": "^11.0.1",

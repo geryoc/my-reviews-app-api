@@ -15,10 +15,9 @@
 - [x] Add Open API documentation generation
 - [x] Analyze how to handle rollback of created medias ?? how twitter/facebook api handles this ?? implement rollback mechanism
 - [x] Auth - Analyze Auth providers auth0 vs aws -> Decision AWS Cognito
+- [x] Auth - Add auth module sign up / sign in - integrate auth provider (AWS COGNITO)
+- [x] Auth - Add auth validation in controllers and security
 
-- [ ] Auth - Add auth module sign up / sign in - integrate auth provider (AWS COGNITO)
-
-- [ ] Auth - Add auth validation in controllers and prevent
 - [ ] Add review module with crud
 
 - [ ] Add Exception handling middlewares
