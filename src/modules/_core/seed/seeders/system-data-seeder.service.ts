@@ -126,31 +126,34 @@ export class SystemDataSeeder implements SeederService {
   }
 
   private async seedCategories(): Promise<void> {
+    let inserted = 0;
+    let skipped = 0;
     for (const item of this.categorySeedData) {
       const existing = await this.categoryRepository.findOneBy({
         categoryId: item.categoryId,
       });
 
       if (existing) {
-        await this.categoryRepository.save({ ...existing, ...item });
-        this.logger.debug(
-          `✔️ ${SystemDataSeeder.name} - Updated: ${item.name}`,
-        );
+        skipped++;
       } else {
         await this.categoryRepository.save(
           this.categoryRepository.create(item),
         );
-        this.logger.debug(
-          `➕ ${SystemDataSeeder.name} - Inserted: ${item.name}`,
-        );
+        inserted++;
       }
     }
 
-    this.logger.log(`✅ ${SystemDataSeeder.name} - completed`);
+    this.logger.log(
+      `✅ ${SystemDataSeeder.name} - completed: ${inserted} inserted, ${skipped} skipped`,
+    );
+  }
+
+  async clear(): Promise<void> {
+    await this.clearCategories();
   }
 
   async clearCategories(): Promise<void> {
-    await this.categoryRepository.clear();
-    this.logger.warn(`⚠️ ${SystemDataSeeder.name} - cleared`);
+    await this.categoryRepository.deleteAll();
+    this.logger.warn(`⚠️ ${SystemDataSeeder.name} - cleared categories`);
   }
 }

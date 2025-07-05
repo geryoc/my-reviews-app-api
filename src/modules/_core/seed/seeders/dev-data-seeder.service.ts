@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from '../../entities/user.entity';
 import { SeederService } from '../seeder.service';
 
@@ -11,6 +11,7 @@ export class DevDataSeeder implements SeederService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async seed(): Promise<void> {
@@ -39,5 +40,13 @@ export class DevDataSeeder implements SeederService {
       );
       this.logger.debug(`➕ ${DevDataSeeder.name} - Inserted: Test User`);
     }
+  }
+
+  async clear(): Promise<void> {
+    const userRepo = this.dataSource.getRepository('user');
+    await userRepo.delete({ where: { authId: 'testauthid' } });
+    this.logger.warn(
+      `⚠️ ${DevDataSeeder.name} - cleared users, tags, reviews, review_tags`,
+    );
   }
 }

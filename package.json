@@ -18,7 +18,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "cross-env NODE_ENV=test jest --config ./test/config/jest-e2e.json",
-    "seed:run": "ts-node src/modules/_core/seed/seeder.runner.ts"
+    "seed:system": "ts-node src/modules/_core/seed/runners/system-seeder.runner.ts",
+    "seed:dev": "ts-node src/modules/_core/seed/runners/dev-seeder.runner.ts",
+    "clear:system": "ts-node src/modules/_core/seed/runners/clear-system.runner.ts",
+    "clear:dev": "ts-node src/modules/_core/seed/runners/clear-dev.runner.ts"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.840.0",

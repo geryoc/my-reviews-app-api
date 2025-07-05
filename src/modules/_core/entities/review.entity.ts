@@ -62,11 +62,14 @@ export class ReviewEntity {
 
   // Relationships
 
-  @ManyToOne(() => UserEntity, (user) => user.reviews, { nullable: false })
+  @ManyToOne(() => UserEntity, (user) => user.reviews, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'userId' })
   user: UserEntity;
 
-  @ManyToOne(() => CategoryEntity)
+  @ManyToOne(() => CategoryEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'categoryId' })
   category: CategoryEntity;
 

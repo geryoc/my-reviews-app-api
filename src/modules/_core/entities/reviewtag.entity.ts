@@ -30,7 +30,7 @@ export class ReviewTagEntity {
   review: ReviewEntity;
 
   @ManyToOne(() => TagEntity, (tag) => tag.reviewTags, {
-    onDelete: 'CASCADE', // "If the parent record is deleted, delete this child record automatically as well."
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'tagId' })
   tag: TagEntity;

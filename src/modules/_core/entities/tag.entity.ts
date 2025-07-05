@@ -22,7 +22,10 @@ export class TagEntity {
 
   // Relationships
 
-  @ManyToOne(() => UserEntity, (user) => user.tags, { nullable: false })
+  @ManyToOne(() => UserEntity, (user) => user.tags, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'userId' })
   user: UserEntity;
 
