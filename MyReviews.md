@@ -95,7 +95,7 @@ Over time, it becomes a record of your preferences, your discoveries, and your e
 - Local Postgre DB using docker compose
 - For local DB use auto sync entities changes
 - Use seeders for System DB data (like categories)
-- Use DEV data seeders if needed (run on demand by script)
+- Use TEST data seeders if needed (run on demand by script)
 
 ## <br><br><br><br><br><br><br><br><br>
 

@@ -8,8 +8,8 @@ import {
   coreServicesProviders,
 } from './config/core-services.config';
 import { entityList } from './config/entities.config';
-import { DevDataSeeder } from './seed/seeders/dev-data-seeder.service';
 import { SystemDataSeeder } from './seed/seeders/system-data-seeder.service';
+import { TestDataSeeder } from './seed/seeders/test-data-seeder.service';
 
 @Module({
   imports: [
@@ -22,13 +22,13 @@ import { SystemDataSeeder } from './seed/seeders/system-data-seeder.service';
     PassportModule,
     TypeOrmModule,
     SystemDataSeeder,
-    DevDataSeeder,
+    TestDataSeeder,
   ],
   controllers: [],
   providers: [
     ...coreServicesProviders,
     SystemDataSeeder,
-    DevDataSeeder,
+    TestDataSeeder,
     JwtStrategy,
   ],
 })

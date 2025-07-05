@@ -5,8 +5,8 @@ import { UserEntity } from '../../entities/user.entity';
 import { SeederService } from '../seeder.service';
 
 @Injectable()
-export class DevDataSeeder implements SeederService {
-  private readonly logger = new Logger(DevDataSeeder.name);
+export class TestDataSeeder implements SeederService {
+  private readonly logger = new Logger(TestDataSeeder.name);
 
   constructor(
     @InjectRepository(UserEntity)
@@ -29,7 +29,7 @@ export class DevDataSeeder implements SeederService {
         name: 'Test User',
         email: 'testuser@example.com',
       });
-      this.logger.debug(`✔️ ${DevDataSeeder.name} - Updated: Test User`);
+      this.logger.debug(`✔️ ${TestDataSeeder.name} - Updated: Test User`);
     } else {
       await this.userRepository.save(
         this.userRepository.create({
@@ -38,15 +38,13 @@ export class DevDataSeeder implements SeederService {
           email: 'testuser@example.com',
         }),
       );
-      this.logger.debug(`➕ ${DevDataSeeder.name} - Inserted: Test User`);
+      this.logger.debug(`➕ ${TestDataSeeder.name} - Inserted: Test User`);
     }
   }
 
   async clear(): Promise<void> {
     const userRepo = this.dataSource.getRepository('user');
     await userRepo.delete({ where: { authId: 'testauthid' } });
-    this.logger.warn(
-      `⚠️ ${DevDataSeeder.name} - cleared users, tags, reviews, review_tags`,
-    );
+    this.logger.warn(`⚠️ ${TestDataSeeder.name} - cleared test users`);
   }
 }

@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
-import { DevDataSeeder } from '../../src/modules/_core/seed/seeders/dev-data-seeder.service';
+import { TestDataSeeder } from '../../src/modules/_core/seed/seeders/test-data-seeder.service';
 import { truncateTables } from '../code/test.helpers';
 
 describe('UsersController (e2e)', () => {
@@ -14,7 +14,6 @@ describe('UsersController (e2e)', () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
-
     app = moduleFixture.createNestApplication();
     await app.init();
   });
@@ -25,9 +24,9 @@ describe('UsersController (e2e)', () => {
 
   beforeEach(async () => {
     await truncateTables(app);
-    const devDataSeeder = app.get(DevDataSeeder);
-    if (devDataSeeder && typeof devDataSeeder.seed === 'function') {
-      await devDataSeeder.seed();
+    const testDataSeeder = app.get(TestDataSeeder);
+    if (testDataSeeder && typeof testDataSeeder.seed === 'function') {
+      await testDataSeeder.seed();
     }
     userId = 1;
   });

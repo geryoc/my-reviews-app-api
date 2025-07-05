@@ -14,8 +14,8 @@
 
 ## 3. Seeding Test Data
 
-- Use your **Dev Data Seeder** to populate baseline data for all tests. This should only insert minimal, basic data required for the app to start and for tests to run.
-- Only run the dev seeder in test/dev environments.
+- Use your **Test Data Seeder** to populate baseline data for all tests. This should only insert minimal, basic data required for the app to start and for tests to run.
+- Only run the test seeder in test/dev environments.
 - For test-specific data, create it directly in your test setup/teardown (e.g., inside `beforeEach`/`afterEach` blocks in your test files).
 
 ## 4. Writing E2E Test Cases
@@ -59,7 +59,7 @@ describe('UsersController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
 
-    // Optionally seed a user or use DevDataSeeder
+    // Optionally seed a user or use TestDataSeeder
     // userId = ...;
   });
 
