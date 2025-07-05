@@ -1,29 +1,25 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
-import { UserEntity } from '../../entities/user.entity';
+import { DataSource } from 'typeorm';
 import { SeederService } from '../seeder.service';
 
 @Injectable()
 export class TestDataSeeder implements SeederService {
   private readonly logger = new Logger(TestDataSeeder.name);
 
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-    private readonly dataSource: DataSource,
-  ) {}
+  constructor(private readonly dataSource: DataSource) {}
 
   async seed(): Promise<void> {
     await this.seedUsers();
+    await this.seedUserTags();
   }
 
   private async seedUsers(): Promise<void> {
-    const exists = await this.userRepository.findOne({
+    const userRepository = this.dataSource.getRepository('user');
+    const exists = await userRepository.findOne({
       where: { authId: 'testauthid' },
     });
     if (exists) {
-      await this.userRepository.save({
+      await userRepository.save({
         ...exists,
         authId: 'testauthid',
         name: 'Test User',
@@ -31,8 +27,8 @@ export class TestDataSeeder implements SeederService {
       });
       this.logger.debug(`✔️ ${TestDataSeeder.name} - Updated: Test User`);
     } else {
-      await this.userRepository.save(
-        this.userRepository.create({
+      await userRepository.save(
+        userRepository.create({
           authId: 'testauthid',
           name: 'Test User',
           email: 'testuser@example.com',
@@ -42,9 +38,39 @@ export class TestDataSeeder implements SeederService {
     }
   }
 
+  private async seedUserTags(): Promise<void> {
+    // Find the test user
+    const user = await this.dataSource.getRepository('user').findOne({
+      where: { authId: 'testauthid' },
+    });
+
+    if (!user) {
+      this.logger.warn(`Test user not found, skipping tag seeding.`);
+      return;
+    }
+
+    // Insert a tag for the test user
+    const tagRepository = this.dataSource.getRepository('tag');
+    const exists = await tagRepository.findOne({
+      where: { userId: user.userId, name: 'TestTag' },
+    });
+    if (!exists) {
+      await tagRepository.save(
+        tagRepository.create({ userId: user.userId, name: 'TestTag' }),
+      );
+      this.logger.debug(
+        `➕ ${TestDataSeeder.name} - Inserted: TestTag for Test User`,
+      );
+    } else {
+      this.logger.debug(
+        `✔️ ${TestDataSeeder.name} - TestTag already exists for Test User`,
+      );
+    }
+  }
+
   async clear(): Promise<void> {
-    const userRepo = this.dataSource.getRepository('user');
-    await userRepo.delete({ where: { authId: 'testauthid' } });
+    const userRepository = this.dataSource.getRepository('user');
+    await userRepository.delete({ where: { authId: 'testauthid' } });
     this.logger.warn(`⚠️ ${TestDataSeeder.name} - cleared test users`);
   }
 }
