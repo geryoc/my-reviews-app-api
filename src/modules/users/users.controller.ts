@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
-  ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserTagRequest } from './models/requests/create-user-tag.request';
 import { DeleteUserTagRequest } from './models/requests/delete-user-tag.request';
@@ -17,22 +17,26 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get(':userId/tags')
-  getUserTags(@Param() params: GetUserTagsRequest) {
+  getUserTags(@Param('userId', ParseIntPipe) userId: number) {
+    const params: GetUserTagsRequest = { userId };
     return this.usersService.getUserTags(params);
   }
 
   @Post(':userId/tags')
   createUserTag(
-    @Param() params: GetUserTagsRequest,
-    @Body(new ValidationPipe({ whitelist: true, transform: true }))
-    body: CreateUserTagRequest,
+    @Param('userId', ParseIntPipe) userId: number,
+    @Body() body: CreateUserTagRequest,
   ) {
-    const request: CreateUserTagRequest = { ...body, userId: params.userId };
+    const request: CreateUserTagRequest = { ...body, userId };
     return this.usersService.createUserTag(request);
   }
 
   @Delete(':userId/tags/:tagId')
-  deleteUserTag(@Param() params: DeleteUserTagRequest) {
+  deleteUserTag(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('tagId', ParseIntPipe) tagId: number,
+  ) {
+    const params: DeleteUserTagRequest = { userId, tagId };
     return this.usersService.deleteUserTag(params);
   }
 }
