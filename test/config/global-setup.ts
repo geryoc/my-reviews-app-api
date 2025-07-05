@@ -1,9 +1,8 @@
-import { NestFactory } from '@nestjs/core';
-import * as dotenv from 'dotenv';
-import { AppModule } from '../src/app.module';
-import { SystemDataSeeder } from '../src/modules/_core/seed/seeders/system-data-seeder.service';
+import './load-test-env';
 
-dotenv.config({ path: '.env.test.local' });
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from '../../src/app.module';
+import { SystemDataSeeder } from '../../src/modules/_core/seed/seeders/system-data-seeder.service';
 
 module.exports = async () => {
   const app = await NestFactory.create(AppModule);

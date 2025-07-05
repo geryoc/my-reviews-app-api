@@ -1,9 +1,9 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
-import { DevDataSeeder } from './../src/modules/_core/seed/seeders/dev-data-seeder.service';
-import { truncateTables } from './test.helpers';
+import { AppModule } from '../../src/app.module';
+import { DevDataSeeder } from '../../src/modules/_core/seed/seeders/dev-data-seeder.service';
+import { truncateTables } from '../code/test.helpers';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
