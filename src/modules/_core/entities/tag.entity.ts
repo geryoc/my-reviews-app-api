@@ -17,7 +17,7 @@ export class TagEntity {
   @Column()
   userId: number;
 
-  @Column({ type: 'varchar', length: 50, unique: true })
+  @Column({ type: 'varchar', length: 50 })
   name: string;
 
   // Relationships

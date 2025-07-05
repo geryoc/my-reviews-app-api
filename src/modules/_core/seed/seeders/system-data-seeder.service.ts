@@ -4,10 +4,10 @@ import { CategoryEntity } from '../../entities/category.entity';
 import { SeederService } from '../seeder.service';
 
 @Injectable()
-export class CategorySeederService implements SeederService {
-  private readonly logger = new Logger(CategorySeederService.name);
+export class SystemDataSeeder implements SeederService {
+  private readonly logger = new Logger(SystemDataSeeder.name);
 
-  private readonly seedData: CategoryEntity[] = [
+  private readonly categorySeedData: CategoryEntity[] = [
     {
       categoryId: 1,
       name: 'Generic',
@@ -115,36 +115,42 @@ export class CategorySeederService implements SeederService {
     },
   ];
 
-  private repository: Repository<CategoryEntity>;
+  private categoryRepository: Repository<CategoryEntity>;
 
   constructor(private readonly dataSource: DataSource) {
-    this.repository = this.dataSource.getRepository(CategoryEntity);
+    this.categoryRepository = this.dataSource.getRepository(CategoryEntity);
   }
 
   async seed(): Promise<void> {
-    for (const item of this.seedData) {
-      const existing = await this.repository.findOneBy({
+    await this.seedCategories();
+  }
+
+  private async seedCategories(): Promise<void> {
+    for (const item of this.categorySeedData) {
+      const existing = await this.categoryRepository.findOneBy({
         categoryId: item.categoryId,
       });
 
       if (existing) {
-        await this.repository.save({ ...existing, ...item });
+        await this.categoryRepository.save({ ...existing, ...item });
         this.logger.debug(
-          `✔️ ${CategorySeederService.name} - Updated: ${item.name}`,
+          `✔️ ${SystemDataSeeder.name} - Updated: ${item.name}`,
         );
       } else {
-        await this.repository.save(this.repository.create(item));
+        await this.categoryRepository.save(
+          this.categoryRepository.create(item),
+        );
         this.logger.debug(
-          `➕ ${CategorySeederService.name} - Inserted: ${item.name}`,
+          `➕ ${SystemDataSeeder.name} - Inserted: ${item.name}`,
         );
       }
     }
 
-    this.logger.log(`✅ ${CategorySeederService.name} - completed`);
+    this.logger.log(`✅ ${SystemDataSeeder.name} - completed`);
   }
 
-  async clear(): Promise<void> {
-    await this.repository.clear();
-    this.logger.warn(`⚠️ ${CategorySeederService.name} - cleared`);
+  async clearCategories(): Promise<void> {
+    await this.categoryRepository.clear();
+    this.logger.warn(`⚠️ ${SystemDataSeeder.name} - cleared`);
   }
 }

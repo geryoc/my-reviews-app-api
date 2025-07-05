@@ -6,6 +6,6 @@ export class AppController {
 
   @Get('ping')
   getHello(): string {
-    return 'Server is running...';
+    return 'Pong!';
   }
 }

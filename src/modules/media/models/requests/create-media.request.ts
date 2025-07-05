@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { MediaUseCase } from 'src/modules/_core/enums/media-use-case.enum';
+import { MediaUseCase } from './../../../_core/enums/media-use-case.enum';
 
 export class CreateMediaRequest {
   @IsDefined()

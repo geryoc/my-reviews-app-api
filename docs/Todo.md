@@ -18,6 +18,7 @@
 - [x] Auth - Add auth module sign up / sign in - integrate auth provider (AWS COGNITO)
 - [x] Auth - Add auth validation in controllers and security
 
+- [ ] Add user module with tag crud
 - [ ] Add review module with crud
 
 - [ ] Add Exception handling middlewares
@@ -26,6 +27,5 @@
 
 # Frontend
 
-- [ ] set up react proj
-- [ ] add env variables
-- [ ] add login module, login signup screen
+- [ ] set up react proj, libraries, config, env variables
+- [ ] add auth module with sign in, sign up, sign out and add basic app layout

@@ -1,8 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { STORAGE_SERVICE } from 'src/modules/_core/config/core-services.config';
-import { getMediaExtension } from 'src/modules/_core/helpers/helpers';
-import { Media } from 'src/modules/_core/models/media.model';
 import { Repository } from 'typeorm';
 import { MediaEntity } from '../../_core/entities/media.entity';
 import { getMediaStorageKey as getMediaStorageObjectName } from '../../_core/enums/media-use-case.enum';
@@ -13,6 +10,9 @@ import {
 } from '../../_core/services/storage/storage.service';
 import { CreateMediaRequest } from '../models/requests/create-media.request';
 import { GetMediaByIdRequest } from '../models/requests/get-media-by-id.request';
+import { STORAGE_SERVICE } from './../../_core/config/core-services.config';
+import { getMediaExtension } from './../../_core/helpers/helpers';
+import { Media } from './../../_core/models/media.model';
 
 @Injectable()
 export class MediaService {
