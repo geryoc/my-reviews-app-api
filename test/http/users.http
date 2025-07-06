@@ -1,0 +1,78 @@
+@baseUrl = http://localhost:3080/api
+@authToken = Bearer <ADD TOKEN HERE>
+
+@userId = 1
+
+### Create User
+POST {{baseUrl}}/users
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "authId": "testAuthId",
+  "email": "testuser@example.com",
+  "name": "Test User"
+}
+
+###
+
+### Get User by ID
+GET {{baseUrl}}/users/{{userId}}
+Authorization: {{authToken}}
+Accept: application/json
+
+###
+
+### Update User
+PUT {{baseUrl}}/users/{{userId}}
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "authId": "auth0|1234567890abcdef",
+  "email": "updateduser@example.com",
+  "name": "Updated Test User",
+  "profilePictureMediaId": "media-uuid-2"
+}
+
+###
+
+### Delete User
+DELETE {{baseUrl}}/users/{{userId}}
+Authorization: {{authToken}}
+Accept: application/json
+
+###
+
+### List Users (paginated)
+GET {{baseUrl}}/users?page=1&limit=10
+Authorization: {{authToken}}
+Accept: application/json
+
+###
+
+### Create User Tag
+POST {{baseUrl}}/users/{{userId}}/tags
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "userId": {{userId}},
+  "name": "Test Tag"
+}
+
+###
+
+### Get User Tags
+GET {{baseUrl}}/users/{{userId}}/tags
+Authorization: {{authToken}}
+Accept: application/json
+
+###
+
+### Delete User Tag
+DELETE {{baseUrl}}/users/{{userId}}/tags/1
+Authorization: {{authToken}}
+Accept: application/json
+
+###

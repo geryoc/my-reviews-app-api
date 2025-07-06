@@ -19,12 +19,13 @@
 - [x] Auth - Add auth validation in controllers and security
 - [x] Add user module with tag crud
 
-- [ ] Complete automation e2e test setup with test db, best practices, better design, auth, etc
+- [x] Complete automation e2e test setup with test db, best practices, better design, auth, etc
 
 - [ ] Add review module with crud
-- [ ] Add Exception handling middlewares
-- [ ] Add Validation middlewares
-- [ ] Add Not found middlewares
+
+- [ ] Add Exception handling middlewares (not priority)
+- [ ] Add Validation middlewares (not priority)
+- [ ] Add Not found middlewares (not priority)
 
 # Frontend
 

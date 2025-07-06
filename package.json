@@ -21,7 +21,8 @@
     "seed:system": "ts-node src/modules/_core/seed/runners/system-seeder.runner.ts",
     "seed:test": "ts-node src/modules/_core/seed/runners/test-seeder.runner.ts",
     "clear:system": "ts-node src/modules/_core/seed/runners/clear-system.runner.ts",
-    "clear:test": "ts-node src/modules/_core/seed/runners/clear-test.runner.ts"
+    "clear:test": "ts-node src/modules/_core/seed/runners/clear-test.runner.ts",
+    "print:token": "ts-node ./src/modules/_core/scripts/print-cognito-token.ts"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.840.0",

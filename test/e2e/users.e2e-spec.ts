@@ -1,10 +1,8 @@
-import * as request from 'supertest';
 import { TestAppManager } from '../code/test-app-manager';
 
 describe('UsersController (e2e)', () => {
   let testApp: TestAppManager;
   let userId: number;
-  let tagId: number;
 
   beforeAll(async () => {
     testApp = new TestAppManager();
@@ -22,21 +20,23 @@ describe('UsersController (e2e)', () => {
   });
 
   it('should create a user tag', async () => {
-    const res = await request(testApp.app.getHttpServer())
-      .post(`/api/users/${userId}/tags`)
-      .send({ name: 'TestTagCreated' })
-      .expect(201);
+    const res = await testApp.sendRequest('post', `/api/users/${userId}/tags`, {
+      name: 'TestTagCreated',
+    });
 
+    expect(res.status).toBe(201);
     expect(res.body.tag.name).toBe('TestTagCreated');
     expect(res.body.tag.userId).toBe(userId);
   });
 
   it('should get user tags', async () => {
-    const res = await request(testApp.app.getHttpServer())
-      .get(`/api/users/${userId}/tags`)
-      .expect(200);
+    const response = await testApp.sendRequest(
+      'get',
+      `/api/users/${userId}/tags`,
+    );
 
-    expect(res.body.tags).toEqual(
+    expect(response.status).toBe(200);
+    expect(response.body.tags).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ name: 'TestTag', tagId: 1, userId: 1 }),
       ]),
@@ -44,22 +44,29 @@ describe('UsersController (e2e)', () => {
   });
 
   it('should delete user tag', async () => {
-    // Create a tag to delete first
-    const createResponse = await request(testApp.app.getHttpServer())
-      .post(`/api/users/${userId}/tags`)
-      .send({ name: 'DeleteTestTag' })
-      .expect(201);
-    const deleteTagId = createResponse.body.tag.tagId;
+    const createRes = await testApp.sendRequest(
+      'post',
+      `/api/users/${userId}/tags`,
+      {
+        name: 'DeleteTestTag',
+      },
+    );
 
-    await request(testApp.app.getHttpServer())
-      .delete(`/api/users/${userId}/tags/${deleteTagId}`)
-      .expect(200);
+    expect(createRes.status).toBe(201);
+    const deleteTagId = createRes.body.tag.tagId;
 
-    // Confirm tag is deleted
-    const res = await request(testApp.app.getHttpServer())
-      .get(`/api/users/${userId}/tags`)
-      .expect(200);
-    expect(res.body.tags).not.toEqual(
+    const deleteRes = await testApp.sendRequest(
+      'delete',
+      `/api/users/${userId}/tags/${deleteTagId}`,
+    );
+    expect(deleteRes.status).toBe(200);
+
+    const getRes = await testApp.sendRequest(
+      'get',
+      `/api/users/${userId}/tags`,
+    );
+    expect(getRes.status).toBe(200);
+    expect(getRes.body.tags).not.toEqual(
       expect.arrayContaining([expect.objectContaining({ tagId: deleteTagId })]),
     );
   });

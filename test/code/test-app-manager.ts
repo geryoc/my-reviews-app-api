@@ -1,7 +1,9 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getDataSourceToken } from '@nestjs/typeorm';
+import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
+import { getCognitoAccessToken } from '../../src/modules/_core/helpers/cognito-token-helper';
 import { TestDataSeeder } from '../../src/modules/_core/seed/seeders/test-data-seeder.service';
 
 export class TestAppManager {
@@ -32,6 +34,25 @@ export class TestAppManager {
         await testDataSeeder.seed();
       }
     }
+  }
+
+  async sendRequest(
+    method: 'get' | 'post' | 'put' | 'delete',
+    url: string,
+    body?: unknown,
+  ): Promise<request.Response> {
+    const token = await getCognitoAccessToken();
+    console.log('Generated Token:', token);
+
+    const requestBuilder = request(this.app.getHttpServer())
+      [method](url)
+      .set('Authorization', `Bearer ${token}`);
+
+    if (body && (method === 'post' || method === 'put')) {
+      return requestBuilder.send(body).set('Content-Type', 'application/json');
+    }
+
+    return requestBuilder;
   }
 
   // Private methods

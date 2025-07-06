@@ -15,23 +15,28 @@ export class TestDataSeeder implements SeederService {
 
   private async seedUsers(): Promise<void> {
     const userRepository = this.dataSource.getRepository('user');
+
+    const authId = process.env.AWS_COGNITO_TEST_USER_AuthId;
+    const name = 'Test User';
+    const email = process.env.AWS_COGNITO_TEST_USER_EMAIL;
+
     const exists = await userRepository.findOne({
-      where: { authId: 'testauthid' },
+      where: { authId },
     });
     if (exists) {
       await userRepository.save({
         ...exists,
-        authId: 'testauthid',
-        name: 'Test User',
-        email: 'testuser@example.com',
+        authId,
+        name,
+        email,
       });
       this.logger.debug(`✔️ ${TestDataSeeder.name} - Updated: Test User`);
     } else {
       await userRepository.save(
         userRepository.create({
-          authId: 'testauthid',
-          name: 'Test User',
-          email: 'testuser@example.com',
+          authId,
+          name,
+          email,
         }),
       );
       this.logger.debug(`➕ ${TestDataSeeder.name} - Inserted: Test User`);
@@ -41,7 +46,7 @@ export class TestDataSeeder implements SeederService {
   private async seedUserTags(): Promise<void> {
     // Find the test user
     const user = await this.dataSource.getRepository('user').findOne({
-      where: { authId: 'testauthid' },
+      where: { authId: process.env.AWS_COGNITO_TEST_USER_AuthId },
     });
 
     if (!user) {
@@ -70,7 +75,9 @@ export class TestDataSeeder implements SeederService {
 
   async clear(): Promise<void> {
     const userRepository = this.dataSource.getRepository('user');
-    await userRepository.delete({ where: { authId: 'testauthid' } });
+    await userRepository.delete({
+      where: { authId: process.env.AWS_COGNITO_TEST_USER_AuthId },
+    });
     this.logger.warn(`⚠️ ${TestDataSeeder.name} - cleared test users`);
   }
 }

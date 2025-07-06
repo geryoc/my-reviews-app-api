@@ -1,0 +1,39 @@
+@baseUrl = http://localhost:3080/api
+@authToken = Bearer <ADD TOKEN HERE>
+@mediaId = d9a71df2-cc25-4211-b6b2-eefca10b361d
+
+### Upload Media
+POST {{baseUrl}}/media
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "base64Data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAgMBAp0B9p8AAAAASUVORK5CYII=",
+  "fileName": "sample-pixel.png",
+  "contentType": "image/png",
+  "mediaUseCase": "review_image",
+  "metadata": { "description": "Sample 1x1 PNG pixel" }
+}
+
+###
+
+### Get Media By ID
+GET {{baseUrl}}/media/{{mediaId}}
+Authorization: {{authToken}}
+Accept: application/json
+
+###
+
+### Download Media
+GET {{baseUrl}}/media/{{mediaId}}/download
+Authorization: {{authToken}}
+Accept: application/json
+
+###
+
+### Get Media Access URL
+GET {{baseUrl}}/media/{{mediaId}}/access-url
+Authorization: {{authToken}}
+Accept: application/json
+
+###

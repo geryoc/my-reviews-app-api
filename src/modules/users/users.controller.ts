@@ -6,12 +6,15 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../_core/auth/jwt.guard';
 import { CreateUserTagRequest } from './models/requests/create-user-tag.request';
 import { DeleteUserTagRequest } from './models/requests/delete-user-tag.request';
 import { GetUserTagsRequest } from './models/requests/get-user-tags.request';
 import { UsersService } from './users.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
