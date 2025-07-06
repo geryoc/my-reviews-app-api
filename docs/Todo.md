@@ -18,10 +18,9 @@
 - [x] Auth - Add auth module sign up / sign in - integrate auth provider (AWS COGNITO)
 - [x] Auth - Add auth validation in controllers and security
 - [x] Add user module with tag crud
-
 - [x] Complete automation e2e test setup with test db, best practices, better design, auth, etc
-
-- [ ] Add review module with crud
+- [x] Add review module with crud
+- [x] Complete users module and user CRUD
 
 - [ ] Add Exception handling middlewares (not priority)
 - [ ] Add Validation middlewares (not priority)

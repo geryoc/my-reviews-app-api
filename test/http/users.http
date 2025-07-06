@@ -28,7 +28,6 @@ Authorization: {{authToken}}
 Content-Type: application/json
 
 {
-  "authId": "auth0|1234567890abcdef",
   "email": "updateduser@example.com",
   "name": "Updated Test User",
   "profilePictureMediaId": "media-uuid-2"
