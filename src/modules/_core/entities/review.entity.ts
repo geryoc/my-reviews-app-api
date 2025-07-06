@@ -30,11 +30,11 @@ export class ReviewEntity {
   @Column({ type: 'date' })
   date: Date;
 
-  @Column({ type: 'text', nullable: true })
-  description?: string;
-
   @Column({ type: 'int' })
   rating: number;
+
+  @Column({ type: 'text', nullable: true })
+  description?: string;
 
   @Column({ type: 'text', array: true, nullable: true })
   pros?: string[];

@@ -83,6 +83,7 @@
 
 ## 9. Testing
 
+- Every single controller must have a .http file with the test cases for the controller placed in test/http/ folder.
 - Place E2E tests in `test/`.
 - Use Jest for unit and E2E tests.
 - Run tests with `npm run test`, `npm run test:e2e`.
@@ -118,10 +119,12 @@
 
 ### General
 
+- Do not use abbreviations in names. Use full words for clarity. Like Request instead of Req, Response instead of Res, etc.
+- Use `PascalCase` for class names, `camelCase` for variables and functions
 - Prefer composition over inheritance.
 - Use async/await for all async operations.
 - Use TypeScript types, models dtos, and interfaces for clarity and safety.
-- Private elements inside a class should be added after the public elemets. Example, all private methos after public methods.
+- Private elements inside a class should be added after the public elements. Example, all private methods after public methods.
 
 ---
 

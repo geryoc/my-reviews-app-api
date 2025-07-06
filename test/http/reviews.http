@@ -1,0 +1,63 @@
+@baseUrl = http://localhost:3080/api
+@authToken = Bearer eyJraWQiOiJ5UzZFYWswOVRiSGxzdVc4SHFMdzgrUldkdGdOWkZuV0NJVlhReng4aHRJPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0MWFiODUyMC0xMGIxLTcwNzktYmUyMS05NWRkMWJiMDM0ZDYiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0yLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMl84TkFRVlNXdjAiLCJjbGllbnRfaWQiOiI0YzRzOHY4NjFtcTJscGx1Ym4wMnRmYmJmYSIsIm9yaWdpbl9qdGkiOiJkZjgxYjcyNy03NDNmLTQ2YTYtYTUwYy1lN2ZjODk3YWJlNDUiLCJldmVudF9pZCI6IjI2N2MxZDBhLWQ4ODEtNGFiYy1iNjc0LWFkZWI2ZWE0ZWEyOCIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE3NTE4MDgxMzgsImV4cCI6MTc1MTgxMTczNywiaWF0IjoxNzUxODA4MTM4LCJqdGkiOiI4MjQzY2Q3Yy0yNzQ5LTQ5NWEtYjA1NC00ODI0ZjZiZmZjMmIiLCJ1c2VybmFtZSI6IjQxYWI4NTIwLTEwYjEtNzA3OS1iZTIxLTk1ZGQxYmIwMzRkNiJ9.EDiGNv9fS4DTxhpAGyPODy2L9KZpeM7vJa3iZwyGteDEyH-qG9xYJobZoyJ3ttrvkF8j-RtPrkK83s9UTZcca8k9KeXaRQ_Jd66kXycvwopyeuvsNTiyd60nqfmosrK_G0nHyuD7rdRKDKHwQDycCWNl3L5nkMYreoIMYLaiiymAI3IVIQV2-DGFw3nxRi0pzWebVXABj6VBPChXiMZOLuSL5-sIEjpaJSqLWu9_NNNz5jEtfCJE3Z4FOMVdVmoUv7vq7ihe156EAajRJ34r0wi5eKPpB3R7EUORtM7H4o4lubJImssO46eXGiHSZooHOdkYpdYiKVsA95FRoeMvNA
+@reviewId = 1
+@userId = 1
+@categoryId = 1
+
+### Create Review
+POST {{baseUrl}}/reviews
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "userId": {{userId}},
+  "title": "Test Review",
+  "categoryId": {{categoryId}},
+  "date": "2025-07-05T00:00:00.000Z",
+  "rating": 5,
+  "description": "A review for testing.",
+  "pros": ["Good"],
+  "cons": ["Negative"],
+  "location": "Test City",
+  "link": "https://example.com",
+  "isFavorite": true
+}
+
+### Get Review By ID
+GET {{baseUrl}}/reviews/3
+Authorization: {{authToken}}
+Accept: application/json
+
+### Update Review
+PUT {{baseUrl}}/reviews/{{reviewId}}
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Review Title",
+  "description": "Some description updated",
+  "rating": 5,
+  "imageMediaId": "d9a71df2-cc25-4211-b6b2-eefca10b361d"
+}
+
+### Delete Review
+DELETE {{baseUrl}}/reviews/{{reviewId}}
+Authorization: {{authToken}}
+Accept: application/json
+
+### List All Reviews
+GET {{baseUrl}}/reviews
+Authorization: {{authToken}}
+Accept: application/json
+
+### Search Reviews
+POST {{baseUrl}}/reviews/search
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "userId": {{userId}},
+  "title": "Test",
+  "pageNumber": 1,
+  "pageSize": 10
+}

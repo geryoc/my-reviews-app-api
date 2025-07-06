@@ -1,6 +1,5 @@
 @baseUrl = http://localhost:3080/api
 @authToken = Bearer <ADD TOKEN HERE>
-
 @userId = 1
 
 ### Create User
